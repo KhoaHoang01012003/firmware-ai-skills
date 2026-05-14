@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "debug_plan.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "target_process", "attach_mode", "intrusive_actions"],
+  "properties": {
+    "artifact_type": {"const": "debug_plan"},
+    "target_process": {"type": "string"},
+    "attach_mode": {"enum": ["host-qemu-attach", "guest-gdbstub", "qemu-system-gdbstub", "gdbserver", "qiling-debugger", "static-blocked"]},
+    "intrusive_actions": {"type": "array"}
+  }
+}

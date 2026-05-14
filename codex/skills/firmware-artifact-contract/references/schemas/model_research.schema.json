@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "model_research.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "claims"],
+  "properties": {
+    "artifact_type": {"const": "model_research"},
+    "claims": {"type": "array"}
+  }
+}

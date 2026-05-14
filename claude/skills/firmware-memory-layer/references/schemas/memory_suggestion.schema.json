@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "memory_suggestion.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "source_inputs", "suggestions"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "source_inputs": {"type": "array"},
+    "suggestions": {"type": "array"}
+  }
+}

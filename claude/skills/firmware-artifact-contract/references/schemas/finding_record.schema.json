@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "finding_record.schema.json",
+  "type": "object",
+  "required": ["schema_version", "timestamp_utc", "finding_id", "title", "component", "hypothesis", "severity_hypothesis", "evidence", "reproduction_status", "cve_claim_allowed", "verifier_report", "artifact_sensitivity"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\.0\\.0$"},
+    "timestamp_utc": {"type": "string"},
+    "finding_id": {"type": "string"},
+    "title": {"type": "string"},
+    "component": {"type": "string"},
+    "hypothesis": {"type": "string"},
+    "severity_hypothesis": {"type": "string"},
+    "evidence": {"type": "array"},
+    "reproduction_status": {"type": "string"},
+    "cve_claim_allowed": {"type": "boolean"},
+    "cve_id": {"type": "string"},
+    "verifier_report": {"type": "string"},
+    "artifact_sensitivity": {"type": "string"}
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "memory_draft.schema.json",
+  "type": "object",
+  "required": ["memory_schema_version", "memory_type", "title", "status", "tags", "applies_to", "evidence", "artifact_sensitivity"],
+  "properties": {
+    "memory_schema_version": {"type": "string"},
+    "memory_type": {"enum": ["product", "service", "tool"]},
+    "title": {"type": "string"},
+    "status": {"enum": ["draft", "active", "deprecated", "needs_revalidation"]},
+    "tags": {"type": "array"},
+    "applies_to": {"type": "object"},
+    "evidence": {"type": "object"},
+    "artifact_sensitivity": {"enum": ["public_reference", "local_metadata", "local_sensitive"]}
+  }
+}

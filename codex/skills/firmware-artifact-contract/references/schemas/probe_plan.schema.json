@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "probe_plan.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "target", "sandbox_network", "payloads", "safety_constraints"],
+  "properties": {
+    "artifact_type": {"const": "probe_plan"},
+    "target": {"type": "string"},
+    "sandbox_network": {"enum": ["disabled", "explicitly_enabled", "blocked"]},
+    "payloads": {"type": "array"},
+    "safety_constraints": {"type": "array"}
+  }
+}

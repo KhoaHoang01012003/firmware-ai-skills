@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runtime_profile.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "runtime_profile", "rootfs_mode"],
+  "properties": {
+    "artifact_type": {"const": "runtime_profile"},
+    "runtime_profile": {"enum": ["qemu-user", "qemu-system", "native-container", "device-ssh", "static-only"]},
+    "rootfs_mode": {"enum": ["rootfs_rw", "rootfs_ro", "static-only"]}
+  }
+}

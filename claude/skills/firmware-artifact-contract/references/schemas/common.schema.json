@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\.0\\.0$"},
+    "generated_at": {"type": "string"},
+    "generated_by": {"type": "string"},
+    "source_inputs": {"type": "array"},
+    "warnings": {"type": "array"},
+    "errors": {"type": "array"}
+  }
+}

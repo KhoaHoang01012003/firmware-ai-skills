@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "service_readiness.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "ready_for_pentest", "services"],
+  "properties": {
+    "artifact_type": {"const": "service_readiness"},
+    "ready_for_pentest": {"type": "boolean"},
+    "services": {"type": "array"}
+  }
+}

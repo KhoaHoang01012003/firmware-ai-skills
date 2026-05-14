@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "code_browser_findings.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "findings"],
+  "properties": {
+    "artifact_type": {"const": "code_browser_findings"},
+    "findings": {"type": "array"}
+  }
+}

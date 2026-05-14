@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hook_plan.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "target_service", "capture_lanes", "workload"],
+  "properties": {
+    "artifact_type": {"const": "hook_plan"},
+    "target_service": {"type": "string"},
+    "capture_lanes": {"type": "array"},
+    "workload": {"type": "array"}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "memory_index.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "workspace_root", "memories"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "workspace_root": {"type": "string"},
+    "memories": {"type": "array"}
+  }
+}

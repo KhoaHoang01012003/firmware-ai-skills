@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill_context.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "scope", "target_components", "entries"],
+  "properties": {
+    "artifact_type": {"const": "skill_context"},
+    "scope": {"type": "string"},
+    "target_components": {"type": "array"},
+    "entries": {"type": "array"}
+  }
+}

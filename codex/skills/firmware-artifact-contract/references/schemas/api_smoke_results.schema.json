@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "api_smoke_results.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "results"],
+  "properties": {
+    "artifact_type": {"const": "api_smoke_results"},
+    "results": {"type": "array"}
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "next_skill_decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "generated_by",
+    "source_inputs",
+    "warnings",
+    "errors",
+    "artifact_type",
+    "decision_id",
+    "selected_skill",
+    "skipped_skills",
+    "required_inputs_satisfied",
+    "expected_evidence_gain",
+    "reentry_condition"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "generated_at": {},
+    "generated_by": {},
+    "source_inputs": {},
+    "warnings": {},
+    "errors": {},
+    "artifact_type": {},
+    "decision_id": {},
+    "selected_skill": {},
+    "skipped_skills": {},
+    "required_inputs_satisfied": {},
+    "expected_evidence_gain": {},
+    "reentry_condition": {}
+  }
+}

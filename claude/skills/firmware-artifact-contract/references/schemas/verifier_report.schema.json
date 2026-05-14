@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "verifier_report.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generated_by", "source_inputs", "warnings", "errors", "artifact_type", "target_finding_id", "verdict", "reproduction_status", "evidence_labels", "duplicate_checks", "disclosure_status"],
+  "properties": {
+    "artifact_type": {"const": "verifier_report"},
+    "target_finding_id": {"type": "string"},
+    "verdict": {"enum": ["verified", "unverified", "duplicate_known", "blocked", "rejected"]},
+    "reproduction_status": {"type": "string"},
+    "evidence_labels": {"type": "array"},
+    "duplicate_checks": {"type": "array"},
+    "disclosure_status": {"type": "string"}
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "attack_surface_graph",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "generated_by",
+    "source_inputs",
+    "warnings",
+    "errors",
+    "artifact_type",
+    "nodes",
+    "edges"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "generated_at": {},
+    "generated_by": {},
+    "source_inputs": {},
+    "warnings": {},
+    "errors": {},
+    "artifact_type": {},
+    "nodes": {},
+    "edges": {}
+  }
+}

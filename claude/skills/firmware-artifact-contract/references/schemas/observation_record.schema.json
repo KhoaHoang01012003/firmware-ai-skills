@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "observation_record.schema.json",
+  "type": "object",
+  "required": ["schema_version", "timestamp_utc", "component", "event_type", "label", "behavior_claim_allowed", "source_artifact", "risk_notes", "artifact_sensitivity"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\.0\\.0$"},
+    "timestamp_utc": {"type": "string"},
+    "component": {"type": "string"},
+    "event_type": {"type": "string"},
+    "label": {"type": "string"},
+    "behavior_claim_allowed": {"type": "boolean"},
+    "source_artifact": {"type": "string"},
+    "reproduction_command": {"type": "string"},
+    "risk_notes": {"type": "array"},
+    "artifact_sensitivity": {"type": "string"}
+  }
+}

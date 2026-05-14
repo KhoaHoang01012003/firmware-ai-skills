@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "duplicate_check",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "generated_by",
+    "source_inputs",
+    "warnings",
+    "errors",
+    "artifact_type",
+    "candidate_id",
+    "checked_sources",
+    "overlap_status"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {},
+    "generated_at": {},
+    "generated_by": {},
+    "source_inputs": {},
+    "warnings": {},
+    "errors": {},
+    "artifact_type": {},
+    "candidate_id": {},
+    "checked_sources": {},
+    "overlap_status": {}
+  }
+}
