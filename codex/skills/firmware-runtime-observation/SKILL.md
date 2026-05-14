@@ -58,8 +58,10 @@ misuse_signals:
 1. Capture host-level and guest-level observations with strace, tcpdump, Frida, bpftrace, logs, or debugger-safe traces.
 2. Treat Qiling only as a separate instrumentation lane unless runtime evidence verifies it.
 3. For UI workloads, observe the same path a user will use: browser/static assets, API base path, WebSocket path, session/token storage, and at least one read-only feature route after login when credentials are available.
-4. Redact local evidence summaries and never write real credentials, tokens, cookies, or private certificates into artifacts.
-5. Re-enter when probing reaches a new parser, endpoint, sink, login boundary, blocked dependency, or degraded UI function.
+4. When the goal is usable firmware emulation, collect an authenticated read-only route matrix after login. Include status, short redacted samples, route purpose, and whether each route is required, optional, degraded, or blocked.
+5. For every required route returning 500/404/502 or empty critical state, gather root-cause evidence at component boundaries: browser/proxy URL, backend port, service process, direct backend curl, config/data path, hardware/simulator dependency, and logs. Route to firmware-debugging when the cause is not already explained.
+6. Redact local evidence summaries and never write real credentials, tokens, cookies, private keys, or private certificates into artifacts.
+7. Re-enter when probing reaches a new parser, endpoint, sink, login boundary, blocked dependency, or degraded UI function.
 
 Always use `firmware-artifact-contract` before trusting shared artifacts. Every JSON output must include `schema_version`, `generated_at`, `generated_by`, `source_inputs`, `warnings`, and `errors`. Use `missing_tool` warnings or blockers when required tooling is unavailable. Static evidence, sandbox_generated evidence, Qiling-only output, and public writeups are not runtime truth; keep behavior_claim_allowed=false unless observed_runtime_qemu, observed_runtime_live_hook, observed_runtime_live_debugger, or verified evidence proves the target workload was observed.
 
@@ -94,3 +96,5 @@ Operate only on firmware and runtimes the user is authorized to test. Keep destr
 - Forgetting missing_tool or blocker records when tooling is unavailable.
 - Claiming UI functionality from backend curl alone when browser routing, static assets, WebSockets, or auth storage were not observed.
 - Recording secrets or bearer tokens in runtime artifacts.
+- Reporting only aggregate "UI works" status without the authenticated route matrix and failed-dependency map.
+- Treating empty state from missing hardware, simulator, or database dependencies as normal feature usability without evidence.

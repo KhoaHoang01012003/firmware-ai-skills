@@ -56,8 +56,10 @@ misuse_signals:
 1. Read artifact index and hypothesis ledger.
 2. Identify evidence level E0 through E8 for each candidate.
 3. List skills with satisfied required inputs and exclude anti-triggered skills.
-4. If the current goal includes firmware emulation, WBM/UI, login, or feature use, require a path to `runtime_readiness.json`, `reachable_services.json`, `ui_access_status.json`, and `emulation_success.json`; route to service-state-discovery, service-emulation, or runtime-observation until those artifacts exist or a blocker explains why not.
-5. Select the skill with highest expected evidence gain or write a blocker.
+4. If the current goal includes firmware emulation, WBM/UI, login, or feature use, require a path to `runtime_readiness.json`, `reachable_services.json`, `ui_access_status.json`, `ui_runtime_observation.json`, `debug_transcript_index.json`, and `emulation_success.json`; route to service-state-discovery, service-emulation, runtime-observation, or firmware-debugging until those artifacts exist or a blocker explains why not.
+5. Preserve an `emulation_success_gate` in next_skill_decision.json that names required UI entrypoints, auth/login expectations, representative authenticated routes, backend dependency ports, acceptable degraded lanes, and non-acceptable blockers.
+6. Treat unexplained authenticated HTTP 500/404, missing backend listeners, missing WebSocket/API proxies, and hardware/simulator blockers as active emulation blockers. Do not route onward as if emulation succeeded until each is fixed, scoped as degraded, or recorded in emulation_blocker.json.
+7. Select the skill with highest expected evidence gain or write a blocker.
 
 Always use `firmware-artifact-contract` before trusting shared artifacts. Every JSON output must include `schema_version`, `generated_at`, `generated_by`, `source_inputs`, `warnings`, and `errors`. Use `missing_tool` warnings or blockers when required tooling is unavailable. Static evidence, sandbox_generated evidence, Qiling-only output, and public writeups are not runtime truth; keep behavior_claim_allowed=false unless observed_runtime_qemu, observed_runtime_live_hook, observed_runtime_live_debugger, or verified evidence proves the target workload was observed.
 
@@ -75,7 +77,7 @@ Do not repeat the same failing action, validation, probe, or handoff when inputs
 - `expected_evidence_gain`
 - `reentry_condition`
 
-For emulation goals, next_skill_decision.json must include `emulation_success_gate` with required services, required UI entrypoints, login/auth handling, acceptable degraded lanes, and blockers that prevent browser-level feature use.
+For emulation goals, next_skill_decision.json must include `emulation_success_gate` with required services, required UI entrypoints, login/auth handling, authenticated read-only route matrix expectations, acceptable degraded lanes, and blockers that prevent browser-level feature use. If any key UI/API route remains 500/404, next_skill_decision.json must route to debugging/runtime observation rather than declare success.
 
 ## Verification Gate
 
@@ -92,3 +94,4 @@ Operate only on firmware and runtimes the user is authorized to test. Keep destr
 - Forgetting re-entry after artifact changes.
 - Routing away from emulation before host/browser UI access and required services are either usable or explicitly blocked.
 - Treating full-system QEMU, qemu-user, chroot, container, or proxy modes as equivalent without labeling their claim scope.
+- Losing the one-shot emulation goal after a partial UI success; login alone does not satisfy service/function usability.

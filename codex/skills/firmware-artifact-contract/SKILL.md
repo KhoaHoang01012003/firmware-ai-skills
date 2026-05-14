@@ -48,8 +48,9 @@ misuse_signals:
 1. Check schema_version, generated_at, generated_by, source_inputs, warnings, and errors before trusting any JSON artifact.
 2. Label every observation with artifact_sensitivity and behavior_claim_allowed.
 3. Apply the E0 through E8 evidence ladder before allowing vulnerability or exploitability language.
-4. For emulation artifacts, separate `boot_observed`, `service_ready`, `host_reachable`, `ui_accessible`, `login_flow_observed`, `feature_use_observed`, and `degraded_dependencies`; do not collapse them into one readiness flag.
-5. Write blockers instead of guessing when identity, extraction, reachability, tooling, UI routing, auth state, or provenance is unclear.
+4. For emulation artifacts, separate `boot_observed`, `service_ready`, `host_reachable`, `ui_accessible`, `login_flow_observed`, `feature_use_observed`, `route_matrix_observed`, `dependency_map_observed`, and `degraded_dependencies`; do not collapse them into one readiness flag.
+5. For UI/API firmware, require `ui_runtime_observation.json` to include an authenticated read-only route matrix when credentials are available. Each required non-2xx route must have a matching blocker or debug transcript entry with backend service, expected port, observed listener/process state, direct backend result, and log/config evidence.
+6. Write blockers instead of guessing when identity, extraction, reachability, tooling, UI routing, auth state, dependency state, hardware/simulator state, or provenance is unclear.
 
 Always use `firmware-artifact-contract` before trusting shared artifacts. Every JSON output must include `schema_version`, `generated_at`, `generated_by`, `source_inputs`, `warnings`, and `errors`. Use `missing_tool` warnings or blockers when required tooling is unavailable. Static evidence, sandbox_generated evidence, Qiling-only output, and public writeups are not runtime truth; keep behavior_claim_allowed=false unless observed_runtime_qemu, observed_runtime_live_hook, observed_runtime_live_debugger, or verified evidence proves the target workload was observed.
 
@@ -73,7 +74,7 @@ Do not repeat the same failing action, validation, probe, or handoff when inputs
 - `duplicate_check.json`
 - `candidate_report.json`
 
-`emulation_success.json` may set `emulation_success=true` only when required services are observed, host/browser UI is reachable, login/auth flow is accounted for without storing secrets, and required features are either usable or explicitly marked degraded/blocked. Userland, chroot, container, or proxy-based success must include `claim_scope` and must not be labeled full-device emulation.
+`emulation_success.json` may set `emulation_success=true` only when required services are observed, host/browser UI is reachable, login/auth flow is accounted for without storing secrets, authenticated required feature/API routes are usable, and dependencies are either working or explicitly marked non-required/degraded with evidence. Required feature routes with unexplained 500/404/502 force `emulation_success=false`. Userland, chroot, container, or proxy-based success must include `claim_scope` and must not be labeled full-device emulation.
 
 ## Verification Gate
 
@@ -91,3 +92,5 @@ Operate only on firmware and runtimes the user is authorized to test. Keep destr
 - Copying secrets from local evidence into reports.
 - Calling firmware emulation successful without browser/UI evidence when the target exposes a UI.
 - Omitting degraded dependency and claim-scope labels for qemu-user, chroot, container, or proxy lanes.
+- Omitting the authenticated route matrix or leaving failed required routes without root-cause/blocker evidence.
+- Marking hardware-backed services successful when their simulator/fieldbus/device dependencies are absent or empty.

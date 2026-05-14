@@ -52,8 +52,10 @@ misuse_signals:
 1. Map required files, daemons, hardware, credentials, sessions, and startup state.
 2. Classify auth boundaries and preconditions.
 3. For UI-bearing services, map the browser entrypoint, static asset path, API base URL, WebSocket endpoints, reverse proxy assumptions, login endpoint, token/session storage, and key feature routes.
-4. Separate reachable, degraded, blocked, and unknown services; distinguish guest-loopback reachability from host/browser reachability.
-5. Handoff runnable services to emulation or runtime observation with a required UI/service success gate when the user wants real UI or feature use.
+4. For every key feature route, map frontend route -> reverse proxy -> backend service -> port/socket -> config file -> data directory -> hardware/simulator dependency. Include likely root-cause collection points such as stderr/stdout logs, service logs, process table, `ss -ltnp`, and read-only direct backend curls.
+5. Separate reachable, degraded, blocked, and unknown services; distinguish guest-loopback reachability from host/browser reachability.
+6. Mark hardware-backed dependencies explicitly: CAN/vcan, serial buses, GPIO/sysfs, modem, storage partitions, TPM/TEE, certificates, databases, MQTT brokers, controller agents, and simulators. Missing hardware that causes empty service state or HTTP 500 is an emulation blocker unless a scoped shim is intentionally used.
+7. Handoff runnable services to emulation or runtime observation with a required UI/service success gate when the user wants real UI or feature use.
 
 Always use `firmware-artifact-contract` before trusting shared artifacts. Every JSON output must include `schema_version`, `generated_at`, `generated_by`, `source_inputs`, `warnings`, and `errors`. Use `missing_tool` warnings or blockers when required tooling is unavailable. Static evidence, sandbox_generated evidence, Qiling-only output, and public writeups are not runtime truth; keep behavior_claim_allowed=false unless observed_runtime_qemu, observed_runtime_live_hook, observed_runtime_live_debugger, or verified evidence proves the target workload was observed.
 
@@ -86,3 +88,4 @@ Operate only on firmware and runtimes the user is authorized to test. Keep destr
 - Forgetting missing_tool or blocker records when tooling is unavailable.
 - Treating HTTP 403, HTTP 404, CORS OPTIONS, or static route discovery as proof that login and feature use are ready.
 - Losing track of frontend-to-backend routing, WebSocket, or reverse-proxy assumptions needed for a real UI session.
+- Failing to connect a UI 500/404 to the missing backend port, config file, data directory, or hardware/simulator dependency that actually caused it.

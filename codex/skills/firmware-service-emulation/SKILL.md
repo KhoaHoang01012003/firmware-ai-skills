@@ -54,11 +54,27 @@ misuse_signals:
 ## Workflow
 
 1. Check required files, libraries, devices, ports, env, and init state.
-2. Block readiness on unexplained HTTP 500 or missing required services.
+2. Block readiness on unexplained HTTP 500/404, missing backend listeners, missing reverse-proxy targets, or missing required services.
 3. Record qemu-user, qemu-system, chroot, container, proxy, or static-only mode; degraded userland lanes are allowed but must be labeled as degraded instead of full-device emulation.
 4. For UI-bearing firmware, expose the real UI to the host or browser, verify static assets load, and verify HTTP/API routing from the same origin the browser uses.
 5. Verify auth state without storing secrets: negative-control invalid credentials should reach the login endpoint, and valid user-provided credentials should be entered by the user or used only in ephemeral local commands.
-6. Do not claim `ready_for_pentest=true` or `emulation_success=true` without observed processes, ports, host/browser UI access, and an explicit degraded/blocked/usable map for key services.
+6. After login, run an authenticated read-only route matrix for representative UI functions and API proxies. For each non-2xx key route, record the mapped backend service, expected port, observed process/listener state, direct backend result, and relevant log excerpt in `debug_transcript_index.json` or `emulation_blocker.json`.
+7. Confirm service dependencies, not only the main web process: MQTT, config managers, update/certificate state, databases, WebSocket servers, controller agents, simulators, fieldbus/CAN devices, load-management/OCPP/modbus daemons, and persistent data/log directories.
+8. Do not claim `ready_for_pentest=true` or `emulation_success=true` without observed processes, ports, host/browser UI access, login/auth handling, authenticated feature/API usability, and an explicit degraded/blocked/usable map for key services.
+
+## Emulation Success Gate
+
+Set `emulation_success=true` only when all required gates pass:
+
+- `boot_or_userland_started`: the target runtime lane is named and observed.
+- `service_ready`: required daemons/processes and backend ports are observed or intentionally scoped out.
+- `host_reachable`: UI/API entrypoints are reachable from the host/browser path the user will use.
+- `ui_accessible`: static assets and app routing load in the browser path.
+- `login_flow_observed`: valid auth succeeds or the auth blocker is explicit; secrets are not stored.
+- `feature_use_observed`: authenticated read-only feature route matrix passes for required functions.
+- `dependency_scope_clear`: missing hardware/simulator dependencies are fixed, shimmed with scope, or recorded as active blockers.
+
+If any required gate fails, write `emulation_success=false` and `emulation_blocker.json` with root-cause evidence and next actions.
 
 Always use `firmware-artifact-contract` before trusting shared artifacts. Every JSON output must include `schema_version`, `generated_at`, `generated_by`, `source_inputs`, `warnings`, and `errors`. Use `missing_tool` warnings or blockers when required tooling is unavailable. Static evidence, sandbox_generated evidence, Qiling-only output, and public writeups are not runtime truth; keep behavior_claim_allowed=false unless observed_runtime_qemu, observed_runtime_live_hook, observed_runtime_live_debugger, or verified evidence proves the target workload was observed.
 
@@ -93,3 +109,5 @@ Operate only on firmware and runtimes the user is authorized to test. Keep destr
 - Forgetting missing_tool or blocker records when tooling is unavailable.
 - Calling emulation successful when only guest-loopback works but host/browser UI cannot be used.
 - Hiding degraded dependencies such as missing hardware, system managers, WebSocket backends, or helper daemons.
+- Calling emulation successful when login works but authenticated feature/API routes still produce unexplained 500/404.
+- Treating a stub, seeded DB row, generated cert, or local proxy as full-device behavior without labeling the claim scope.
